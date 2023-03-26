@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StudentRepository {
@@ -57,21 +58,41 @@ public class StudentRepository {
 
     public void deleteTeacherByName(String name){
         teacherDb.remove(name);
-        for(String student : studentTeacherPair.keySet()){
-            if(studentTeacherPair.get(student).equals(name)){
-                studentDb.remove(student);
-                studentTeacherPair.remove(student);
+//        for(String student : studentTeacherPair.keySet()){
+//            if(studentTeacherPair.get(student).equals(name)){
+//                studentDb.remove(student);
+//                studentTeacherPair.remove(student);
+//            }
+//        }
+
+        for(Map.Entry<String, String> entry : studentTeacherPair.entrySet()){
+            if(entry.getValue().equals(name)){
+                String studentName = entry.getKey();
+                studentDb.remove(studentName);
+                studentTeacherPair.remove(studentName);
             }
         }
     }
 
     public void deleteAllTeachers(){
-        for(String teacher : teacherDb.keySet()){
-            teacherDb.remove(teacher);
-            for(String student : studentTeacherPair.keySet()){
-                if(studentTeacherPair.get(student).equals(teacher)){
-                    studentDb.remove(student);
-                    studentTeacherPair.remove(student);
+//        for(String teacher : teacherDb.keySet()){
+//            teacherDb.remove(teacher);
+//            for(String student : studentTeacherPair.keySet()){
+//                if(studentTeacherPair.get(student).equals(teacher)){
+//                    studentDb.remove(student);
+//                    studentTeacherPair.remove(student);
+//                }
+//            }
+//        }
+
+        for(String teacherName : teacherDb.keySet()) {
+            teacherDb.remove(teacherName);
+
+            for (Map.Entry<String, String> entry : studentTeacherPair.entrySet()) {
+                if (entry.getValue().equals(teacherName)) {
+                    String studentName = entry.getKey();
+                    studentDb.remove(studentName);
+                    studentTeacherPair.remove(studentName);
                 }
             }
         }
