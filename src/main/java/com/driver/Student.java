@@ -1,4 +1,4 @@
-package com.driver.Model;
+package com.driver;
 
 public class Student {
 
@@ -40,3 +40,4 @@ public class Student {
         this.averageScore = averageScore;
     }
 }
+
