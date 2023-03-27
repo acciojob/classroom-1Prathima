@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/students")
 public class StudentController {
 
-    @Autowired
-    StudentService studentService;
+//    @Autowired
+    StudentService studentService = new StudentService();
 
     @PostMapping("/add-student")
     public ResponseEntity<String> addStudent(@RequestBody Student student){
@@ -36,16 +36,16 @@ public class StudentController {
     }
 
     @PutMapping("/add-student-teacher-pair")
-    public ResponseEntity<String> addStudentTeacherPair(@RequestParam String student, @RequestParam String teacher){
+    public ResponseEntity<String> addStudentTeacherPair(@RequestParam("student") String student, @RequestParam("teacher") String teacher){
 
         studentService.addStudentTeacherPair(student, teacher);
         return new ResponseEntity<>("New student-teacher pair added successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/get-student-by-name/{name}")
-    public ResponseEntity<Student> getStudentByName(@PathVariable String name){
-        Student student = null; // Assign student by calling service layer method
-        student = studentService.getStudentByName(name);
+    public ResponseEntity<Student> getStudentByName(@PathVariable("name") String name){
+        // Assign student by calling service layer method
+        Student student = studentService.getStudentByName(name);
 
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
